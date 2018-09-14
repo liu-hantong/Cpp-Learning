@@ -13,6 +13,7 @@ double QuadraticEquation::getRoot1() {
 	}
 	else if (discriminant == 0) {
 		if((-b) / (2 * a) == 0){
+		//in order to avoid the situation when roots equal -0, the following is same. 
 			cout << 0 << endl;
 			return 0;
 		}
