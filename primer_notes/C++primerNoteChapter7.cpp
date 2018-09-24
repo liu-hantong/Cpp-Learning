@@ -141,6 +141,105 @@ class Screen {
 }
 
 
+//7.4
+//7.4
+//class scope
+Because the return type appears before the name of the class is seen, 
+it appears outside the scope of class Window_mgr. To use ScreenIndex for the return type, 
+we must specify the class in which that type is defined.
+// like this
+Window_mgr::ScreenIndex
+Window_mgr::addScreen( const Screen &s ) {
+	screen.push_back(s);
+	return screens.size() - 1;
+}
+
+//7.4.1
+//7.4.1
+//you cannot redefine a  val inside the class clope.
+//like this 
+typedef double money;
+class Acount {
+public:
+	money balance() {return val;}
+private:
+	typedef double money; //error
+	money bal;
+}
+
+//to better understand the class scope
+//we have a good example here
+typedef string Type;
+Type initval(); //use 'string'
+class Exersice {
+public:
+	typedef double Type;
+	Type setVal(Type);//use 'double'
+	Type initval();//use 'double'
+private:
+	int val;
+};
+Type Exersice::setVal(Type parm) { //use 'string', use 'double'
+	val = parm + initVal();
+	return val;
+}
+
+
+//7.5
+//7.5
+//Constructors Revisited
+/*members that are const or references must be initialized*/
+class ConstRef {
+public:
+	ConstRef(int ii);
+private:
+	int i;
+	const int ci;
+	int &ri;
+}
+/*
+By the time the body of the constructor begins executing, 
+initialization is complete. Our only chance to initialize const or
+reference data members is in the constructor initializer. 
+The correct way to write this constructor is*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+
 
 
 
