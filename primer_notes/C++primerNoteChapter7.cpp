@@ -202,32 +202,127 @@ By the time the body of the constructor begins executing,
 initialization is complete. Our only chance to initialize const or
 reference data members is in the constructor initializer. 
 The correct way to write this constructor is*/
+ConstRef::ConstRef(int ii) : i(ii), ci(ii), ri(i) { }
+
+/*Form a habit to use constructor to initialize the vals*/
+/*Constructors that do not need a parameter are also defalut constructors*/
+Sales_data(std::istream &is = std::cin) { read(is, *this); }
+
+/*intersting thing*/
+/*delegating constructor*/
+//for example
+class Sales_data {
+public:
+	Sales_data(std::string s, unsigned cnt, double price) :
+		bookNo(s), units_Sold(cnt), revenue(cnt *price) { }
+	Sales_data() : Sales_data("", 0, 0) { }
+	Sales_data(std::stirng s) : Sales_data(s, 0, 0) { }
+	Sales_data(std::istream &is) : Sales_data() { read(is, *this ); }
+}
+
+//7.5.3
+//7.5.3
+//The Role of the Default Constructor 
+The role of the default constructor cannot be ignored.
+
+//7.5.4
+//7.5.4
+//Implicit Class-Type Conversions
+/*we can convert string to Sales_data like this*/
+string num_book = "99999999";
+item.combine(null_book);
+/*The compiler will automaticly apply only one class-type conversion*/
+/*For example we can't act like this*/
+item.combine("23232");
+//this, otherwise, is correct
+item.combine(string("4434343"));
+item.combinr(Sales_data("23121"));
 
 
+/*suppressing implicit conversions defined by constructors*/
+//by using explicit
+explicit Sales_data(const std::string &s) : bookNo(s) {}
+//wrong example 
+item.combine(null);
+item.combine(cin);
 
 
+/*explicit constructors can be used only for direct initialization*/
+/*we can still use constructors explicitly conversions*/
+
+/*verctor is expilict but string is not explicit*/
+
+//7.5.5
+//7.5.5
+//Aggregate Classes
+
+/*the features of an aggragate class*/
+//1.All of its data members are public
+//2.It does not define any constructors
+//3.It has no in-class intilizers
+//4.It has no base classes or virtual functions, which are class-related features
+/*We can define an aggregate classes like this*/
+struct Data{
+		int val;
+		string s;
+}
+/*And we can initial the data members like this*/
+Data vall = { 0, "Anna" };
+
+//7.5.6
+//7.5.6
+//Literal classes
+/*The defination: An aggragate class whose data members are all of literal type is a literal class*/
+/* Not a aggragate class, that meets the following restrictions, also literal*/
+//1.all literal type
+//2.at least one constexpr constrctor
+//3.Constant expresion!!!!
+//4.default destructor
+/*here is an example of literal class*/
+class Debug{
+public:
+	constexpr Debug(bool b = true) : hw(b), io(b), other(b) { }
+	...
+private:
+	bool hw;
+	bool io;
+	bool other;
+}
 
 
+//7.6
+//7.6
+//static Class Members
+/*Member that are assiocioted with classsed not objects*/
+/*declare a static member*/
+//just add static key word
+class Account {
+public:
+	void calculate() { amount += amount * interestRate; }
+	static double rate() { return interestRate; }
+	static void rate(double) ;
+private:
+	std::string owner;
+	static double interestRate;
+	static double initRate();
+}
+
+/*using a class static member*/
+//we can using the static member even if it's not instantiated
+double r;
+r = Account::rate();
+//the member functio can use static members directly
 
 
+/*if you want to initialize a static member, you have to add constexpr*/
+class n{
+	static constexpr int period = 30;
+}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	
+/*static members can be used in ways ordinary members can't*/
+//1.static members can have imcomplete type
+//2.we can use a static member as a default argument 
 	
 
 
