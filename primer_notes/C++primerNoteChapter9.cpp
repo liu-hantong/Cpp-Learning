@@ -204,4 +204,76 @@ pointer, or reference that has been invalidated*/
 /*note that avoid storing the iterator returned from the end*/
 
 
+//9.4
+//9.4
+//How a vector grows
+/*to avoid the allocate costs, when they have to get new memory, vector and string
+umolementations typiclly allocate capacity beyond what is immediately needed
+/*members to manage capacity*/
+c.shrink_to_fit();//reduce to capacity to size
+c.capacity();//return the size of memory
+c.reserve(n);//allocate n elements' memory
+/*we have to understand that capacity is different from size*/
+//for example
+vector<int> a(24, 1);
+a.capacity() = 32//probably
+a.size() = 24//definitely
+if(a.reserve(50))//memory operation
+a.capacity() = 50;//definitely
+/*note that is must not allocate new memory until it is forced to do so*/
+
+
+//9.5
+//9.5
+//additional string operations
+//9.5.1
+//9.5.1
+//other ways to construct strings
+/*the functions are as followed*/
+string s(cp, n)//n elements of cp
+string s(s2, pos2)//after pos2 of s2
+string s(s2, pos2, len2)//len2 elements after pos2 of s2
+/*the substring operation*/
+//return part of the original array
+
+
+//9.5.2
+//9.5.2
+//other ways to change a string
+/*append and replace functions*/
+
+
+//9.5.3
+//9.5.3
+//string search operations
+find(args);
+s.rfind(args);
+s.find_first_of(args);
+s.find_last_of(args);
+s.find_first_not_of(args);
+s.find_last_not_of(args);
+
+
+//9.5.4
+//9.5.4
+//compare functions
+
+
+//9.5.5
+//9.5.5
+//numeric conversions
+string = to_string(int)
+double = stod(string)
+//blabla
+
+
+//9.6
+//9.6
+//container adaptors
+/*quene, stack and priority_queue*/
+/*define an adaptor*/
+/*stack adaptor*/
+pop, push, emplace, top
+/*queue adapror*/
+pop, front, back, top, push, emplace
 }
