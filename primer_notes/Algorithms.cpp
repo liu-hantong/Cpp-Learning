@@ -4,6 +4,8 @@
 #include<list>
 #include<string>
 #include<numeric>
+#include<fstream>
+#include<iterator>
 using namespace std;
 int main() {
 	//Pr 10.1 10.2
@@ -81,8 +83,27 @@ int main() {
 	int a = 10;
 	auto Lam = [a]() mutable -> bool{while (a != 0) a--; return a == 0 ? true : false; };
 	*/
-	//Pra 
-	
+	//Pra10.27.28
+	/*
+	vector<int> a = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+	vector<int> b, c, d;
+	copy(a.begin(), a.end(), back_inserter(b));
+	copy(a.begin(), a.end(), inserter(d, d.begin()));
+	for(auto e : b)
+		cout << e << endl;
+	for(auto e : c)
+		cout << e << endl;
+	for(auto e : d)
+		cout << e << endl;
+	*/
+	//Pra 10.34
+	/*
+	vector<int> a = {1, 2, 3, 45, 6, 7};
+	for (auto b = a.rend(); b != a.rbegin(); ++b)
+		cout << *b << endl;
+	system("pause");
+	*/
+
 }
 //Pra 10.16
 /*

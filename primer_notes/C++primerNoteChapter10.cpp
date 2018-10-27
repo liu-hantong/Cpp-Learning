@@ -157,5 +157,62 @@ bind, ref, cref are all being defined in header functional
 //10.4
 //10.4
 //Revisiting Iterators
- 
+//10.4.1
+//10.4.1
+//insert iterator
+it = t//insert elements
+*it, ++it, it++//remain unchanged
+back_inserter//can operate push_back
+front_inserter//can operate push_front
+inserter//second argument, insert ahead of it
+
+
+//10.4.2
+//10.4.2
+//iostream iterators
+istream_iterator<int> in_iter(cin), eof;
+vector<int> vec(in_iter, eof);
+/*using iterators with the Algorithms*/
+accumulate(in, eof, 0)
+/*istream_iteraotrs are permitted to use lazy evaluation*/
+/*ostream_iterater operations*/
+ostream_iterater<int> out_iter(cout, " ");
+for(auto e : vec)
+	*out_iter++ = e;
+cout << endl;
+//we can use copy to print the elements
+ostream_iterater<T> out_iter(out, '\n');
+copy(vec.begin(), vec.end(), out_iter);
+cout << endl;
+/*using stream iterator with class types*/
+
+
+//10.4.3
+//10.4.3
+//Reverse iterator
+/*all containers support reverse iterators*/
+rend()
+rbegin()
+crend()
+crbegin()
+//we can use reverse iterator to sort the vector in descending order
+//base member can transform reverse into normal iterator
+//we can use reverse iterator to deal with the last element
+
+
+//10.4.3
+//10.4.3
+//Reverse Iterators
+
+
+//10.5
+//10.5
+//Structure of generic algorithms
+
+
+//10,6
+//10.6
+//Container-Specific Algorithms
+/*we should use member function instead of general algorithms first*/
+/*The list-specific opeartions do change containers*/
 }
