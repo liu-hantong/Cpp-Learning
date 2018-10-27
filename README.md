@@ -1,7 +1,7 @@
 # cpp_notes
 
 1. Some notes when reading C++ primer
-2. a few practices about oop.
+2. A few practices about oop.
 
 I'd like to share some of my thoughts and origin notes when reading C++ primer.
 Any advice or questions are welcome.
