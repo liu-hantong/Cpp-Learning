@@ -141,23 +141,107 @@ a reference to const*/
 //14.6
 //Increment and Decrement operators
 /*our preference is to make these operators members*/
+/*note that we should define increment and decrement operators both the prefix and postfix
+versions. These operator usually should be defined as members*/
+/*to be consistent with the build-in operators, the prefix operators should return a reference
+to the incremented or decremented object*/
+Str& StrBlobPtr::operator++() { }
+/*we use int parameter to differentiate prefix and postfix operators*/
+Str operator++( int );
+/*we can call the operator explicitly like this*/
+p.operator++(0);//the parameter is needed to defferentiate between prefix and postfix
+p.operator++();
+
+//14.7
+//14.7
+//Member Access Operators
+//-> and *operator
+/*operator must be a member, the deference operator is not required to be a member*/
+/*the return type of these two operators are reference and pointer*/
+(*point).mem;//point is a build-in pointer type
+point.operator()->mem;//point is an object of class type
+/*the overloaded arrow operator must return either a pointer to a class type or an
+object of a class type that defines its own operator arrow*/
 
 
-	
+//14.8
+//14.8
+//Function-Call Operator
+/*classes that overloaded the call operator allow objects of its type to be used as if
+they were a function*/
+struct abdInt{
+	int operator()(int val) const {
+		return val < 0 ? -val : val;
+	}
+}
+//we can use this object like this
+int ui = absObj(i);
+/*note that the function call operator must be members*/
+
+/*Function-Object Classes with State*/
+/*we can also use the object-function as a parameter of the STL function such as copy*/
 
 
+//14.8.1
+//14.8.1
+//Lambdas Are function Objects
+/*Lambdas work as function objects inside the program, it will create a 
+new class for these lambdas*/
+class ShorterString{
+public:
+	bool operator()(const string &s1, const string &s2) const
+	{return s1.size() < s2.size();}
+}
+
+/*Classes representing lambdas with Captures*/
+//it will create the corresponding data member for the capture parameters*/
+//typicaly, classes generated from a lambda expression have a deleted default constructor*/
 
 
+//14.8.2
+//14.8.2
+//Lirary-Defined Function Objects
+plus<int> intAdd;
+negate<int> ineNegate;
+int sum = intAdd(10, 20);
+sum = intNegate(intAdd(10, 20));
+//lots of function template classes are defined inside the STL
+//they are "functions" of arithmetic, relational, logical operations
+
+/*note that we can use STL function objects in Algorithms*/
 
 
+//14.8.3
+//14.8.3
+//Callable Objects and function
+
+/*defferent Types can have the same Call Signatrue*/
+//ordinary function, lambda and function-object class can have same call signatrue
+
+/*STL function type*/
+//we can use function class to coordinate with the last callable objects
+function<int(int, int)> f1 = add;//function
+function<int(int, int)> f1 = divide();//function objects
+function<int(int, int)> f1 = [](int i, int j);//lambda
+//we can use function to define map
+map<string, function<int(int, int)>> binops = {//this defination can solve previous problems
+	{"+", add},
+	{"-", std::minus<int> ()},
+	{"/", divede()},
+	{"*", [](int i, int j) {return i * j;}},
+	{"%", mod} };
+}
+
+/*overloaded functions and function*/
+//we can use function pointer or lambda to indicate the correct overloaded functions we
+//want use in binops
+int (*fp)(int, int) = add;
+binops.insert( {"+", fp} );
 
 
  
-
-
-
-
-
+	
+	
 
 
 
