@@ -1,6 +1,11 @@
 #include<iostream>
 #include<vector>
 #include<memory>
+
+//e.g. 12.1
+//This is a class that is an example of how shared_ptr works internal
+//This class can be used to explain the technique of shared_ptr
+
 class StrBlob {
 public:
 	typedef std::vector<std::string>::size_type size_type;
