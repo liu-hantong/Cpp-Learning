@@ -22,8 +22,57 @@ void Output(std::shared_ptr<std::vector<int>> p) {
 		std::cout << ele << std::endl;
 }
 
+//Pra 12.10
+void process(std::shared_ptr<int> p) {
+	std::cout << "The use number now equals " << p.use_count() << std::endl;
+}
 
+//Pra 12.14
+//Write your own version of a function that uses shared_ptr to manage a connection
+struct connection {
+	//information that the connection needed
+	std::string ip;
+	int port;
+	connection(std::string ip_, int port_) :ip(ip_), port(port_) { }
+};
+struct destination {
+	//what are we trying to connect
+	std::string ip;
+	int port;
+	destination(std::string ip_, int port_) :ip(ip_), port(port_) { }
+};
+connection connect(destination *pDest) {
+	//open the connection
+	std::shared_ptr<connection> pConn(new connection(pDest->ip, pDest->port));
+	std::cout << "creating connection(" << pConn.use_count() << ")" << std::endl;
+	return *pConn;
+}
+void disconnect(connection pConn) {
+	std::cout << "connection close(" << pConn.ip << ":" << pConn.port << ")" << std::endl;
+}
+void f(destination &d)
+{
+	connection conn = connect(&d);
+	std::shared_ptr<connection> p(&conn, [](connection *p) { disconnect(*p); });
+	std::cout << "connecting now(" << p.use_count() << ")" << std::endl;
+}
 
+//Pra 12.26
+void input_reverse_output_string(int n)
+{
+	//an example of the using process of allocator
+	std::allocator<std::string> alloc;//create an alloc object
+	auto const p = alloc.allocate(n);//alloct n memories for alloc
+	std::string s;
+	auto q = p;
+	while (q != p + n && std::cin >> s) //construct an object for a position in alloc
+		alloc.construct(q++, s);
+	while (q != p) {
+		std::cout << --q << " ";
+		alloc.destroy(q);//release the object in position
+	}
+	alloc.deallocate(p, n);//release the space that are applied
+}
 
 int main() {
 	//Chapter 12
@@ -43,12 +92,38 @@ int main() {
 	liu.back() = "haha";
 	std::cout << liu.front() << " " << liu.back() << std::endl;
 
-	//haha, remember not to use delete and new but use shared_ptr
 	//Pra 12.7
 	//Create a ptr by function, fill it, output it by function
 	std::shared_ptr<std::vector<int>> p6 = return_ptr();
 	Input(p6);
 	Output(p6);
+
+
+	//Pra 12.10
+	std::shared_ptr<int> p(new int(42));
+	process(std::shared_ptr<int>(p));
+	/**
+	* codes below shows how the reference count change.
+	*/
+	//process(std::shared_ptr<int>(p.get()));//Pra 12.11 //this call can lead to memory release
+	std::cout << p.use_count() << "\n";
+	auto q = p;
+	std::cout << p.use_count() << "\n";
+	std::cout << "the int p now points to is:" << *p << "\n";
+
+	/*Some principals we must follow when using smart pointer*/
+	//Don't use the same built-in pointer value to initialize more than one smart pointer
+	//Don't delete the pointer returned from get()
+	//Don't use get() to initialze or reset another smart pointer
+	//if you use a pointer returned by get(), remember that the pointer will become valid when the last
+	//corresponding smart pointer goes away
+
+	//Pra 12.15
+	destination dest("202.118.176.67", 3316);
+	f(dest);
+
+	//Pra 12.26
+	input_reverse_output_string(5);
 
 	system("pause");
 	return 0;
