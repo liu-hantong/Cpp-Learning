@@ -1,5 +1,3 @@
-## C Inventory Administration System
-
 ### C++ 练习项目 网点购物管理系统 命令行实现
 
 ### 管理员功能
