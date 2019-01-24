@@ -27,3 +27,4 @@
 * [A template class of Queue](https://github.com/llht/Cpp-Notes/tree/master/practice/TemplateQueue) created by C++. The basic functions, pop(), push(), back(), front(), back(), isEmpty(), show() have been implemented.
 * [A C++ class of two-dimentional coordinates of x and y](https://github.com/llht/Cpp-Notes/tree/master/practice/Two_dimentional_coordinates). Calculating the distances of two different objects.
 * [Three C++ classes to form a management system, using inheritance](https://github.com/llht/Cpp-Notes/tree/master/practice/Inherit_memberManager) 
+* [Four C++ classes to form a bike administration system, using inherit properties](https://github.com/llht/Cpp-Notes/tree/master/practice/Inherit_BikeAdminSystem). Lock, unlock, add, calculate the distances, etc.
