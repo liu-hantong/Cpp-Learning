@@ -4,7 +4,7 @@
 #pragma once
 class Bike
 {
-protected:
+public:
 	std::string serial;
 	bool occupied;
 	int distance;
