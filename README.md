@@ -28,3 +28,4 @@
 * [A C++ class of two-dimentional coordinates of x and y](https://github.com/llht/Cpp-Notes/tree/master/practice/Two_dimentional_coordinates). Calculating the distances of two different objects.
 * [Three C++ classes to form a management system, using inheritance](https://github.com/llht/Cpp-Notes/tree/master/practice/Inherit_memberManager) 
 * [Four C++ classes to form a bike administration system, using inherit properties](https://github.com/llht/Cpp-Notes/tree/master/practice/Inherit_BikeAdminSystem). Lock, unlock, add, calculate the distances, etc.
+* [A typical implentation of Stack, using exception dealing method of C++](https://github.com/llht/Cpp-Notes/blob/master/practice/Essential%20C%2B%2B%20Practice%207.2.cpp). size(), full(), empty(), top(), print(), push(), pop(), peek() methods are included.
