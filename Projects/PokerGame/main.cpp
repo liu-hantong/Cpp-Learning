@@ -19,17 +19,17 @@ int main()
 {
 	int MyNumber, EnemyNumber;                    //mark the number of pokers
 	std::string CurrentPoker;
-	std::vector<std::string> MyPoker, EnemyPoker; //mark the pokers
-	
+	std::vector<std::string> MyPokers, EnemyPoker; //mark the pokers
+	cin >> MyNumber >> EnemyNumber;
+
 	//collect my pokers to play
 	for (int i = 0; i < MyNumber; ++i)            
 	{
 		std::cin >> CurrentPoker;
-		MyPoker.push_back(CurrentPoker);
+		MyPokers.push_back(CurrentPoker);
 	}
 	
 	//collect enemy pokers to confront
-	cin >> EnemyNumber;
 	for (int i = 0; i < EnemyNumber; i++)         
 	{
 		std::cin >> CurrentPoker;
@@ -41,7 +41,7 @@ int main()
 	cout << YouOutThese.CardsNature << endl;
 	
 	//find a solution
-	MyPoker IHaveThese(MyPoker, MyNumber, YouOutThese);   
+	MyPoker IHaveThese(MyPokers, MyNumber, YouOutThese);   
 	WhatsTheResult(IHaveThese.MyOut);
 	
 	system("pause");

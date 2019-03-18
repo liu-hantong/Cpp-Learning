@@ -5,6 +5,26 @@
 #include<functional>
 #include"PokerAnalysis.h"
 using namespace std;
+
+/*
+Strategy_x is correspond to different kind of enemy pokers
+1: Single
+2: Double
+3: Treble
+4: Trible with Single 5: Treble with Double
+6: Continual Double   7: Continual Single
+8: Four with Two
+9:  2 Airplanes with zero
+10: 2 Airplanes with 2 single wings
+11: 2 Airplanes with 2 double wings
+12: 3 Airplanes with zero
+13: 3 Airplanes with 2 single wings
+14: 3 Airplanes with 2 double wings
+15: Normal Bomb
+16: Lords Bomb
+*/
+
+
 class MyPoker
 {
 private:
@@ -13,8 +33,9 @@ private:
 	const vector<string> PokerSeries = { "3", "4", "5","6","7","8","9","10","J","Q","K","A","2","joker","JOKER" };
 	vector<string> MyCards;
 	vector<string> EnemyCards;
-	vector<string> MyOut;       //mark the cards I am going to hand out
 public:
+	vector<string> MyOut;       //mark the cards I am going to hand out
+
 	MyPoker(vector<string> MyCards, int MyNumber, PokerAnalysis Enemy);
 
 	//simply compare the two Pokers£¬1 if bigger, 0 if equal, -1 if smaller
@@ -38,9 +59,11 @@ public:
 	void Strategy_9();
 	void Strategy_10();
 	void Strategy_11();
+	/*
 	void Strategy_12();
 	void Strategy_13();
 	void Strategy_14();
+	*/
 	void Strategy_Bomb();
 };
 
@@ -72,10 +95,11 @@ MyPoker::MyPoker(vector<string> MyCards, int MyNumber, PokerAnalysis Enemy)
 	case 9: Strategy_9(); break;
 	case 10: Strategy_10(); break;
 	case 11:Strategy_11(); break;
+	/*
 	case 12: Strategy_12(); break;
 	case 13: Strategy_13(); break;
 	case 14: Strategy_14(); break;
-	
+	*/
 	//case 15 is bomb issue
 	case 15: Strategy_Bomb(); break;
 
@@ -89,11 +113,7 @@ MyPoker::MyPoker(vector<string> MyCards, int MyNumber, PokerAnalysis Enemy)
 
 bool MyPoker::IfAllEquall(vector<string> Object)
 {	
-	return 
-		find_if(Object.begin() + 1,
-			Object.end(),
-			bind1st(not_equal_to<int>(), Object.front())) == Object.end();
-
+	return  std::adjacent_find(Object.begin(), Object.end(), std::not_equal_to<>()) == Object.end();
 }
 
 vector<string> MyPoker::GetXPokersOut(vector<string> Pokers, int position, int X)
@@ -124,8 +144,8 @@ int MyPoker::PokerCompare(string Poker1, string Poker2)
 void MyPoker::Strategy_1()
 {
 	//compare
-	int flag;
-	for (int flag = 0; flag < MyNumber; ++flag)
+	int flag = 0;
+	for (flag = 0; flag < MyNumber; ++flag)
 	{
 		if (PokerCompare(MyCards[flag], EnemyCards[0]) == 1)
 		{
@@ -273,29 +293,215 @@ void MyPoker::Strategy_6()
 
 void MyPoker::Strategy_7()
 {
+	//find 7 pokers that is cumulative
+	int flag;
+	vector<string> result;
+
+	for (flag = 0; flag < MyNumber - (EnemyNumber - 1); ++flag)
+	{
+		//get EnemyNumbers pokers out to determine
+		result = GetXPokersOut(MyCards, flag, EnemyNumber);
+		
+		//determine whether the cards are continual single
+		//take out EnemyNumber members of CardsSeries and compare it with the result
+		
+		for (int SeriesFlag = 0; SeriesFlag < (PokerSeries.size() - (EnemyNumber + 1)); ++SeriesFlag)
+		{
+			vector<string> CurrentSeries(&PokerSeries[SeriesFlag], &PokerSeries[SeriesFlag + EnemyNumber - 1]);
+			if (CurrentSeries == result)
+				MyOut = result;
+		}
+	}
+
+	//if cannot find a proper continual single
+	if (flag == MyNumber - (EnemyNumber - 1))
+		return Strategy_Bomb();
 
 }
 
 void MyPoker::Strategy_8()
 {
-
+	int flag;
+	vector<string> result;
+	for (flag = 0; flag < MyNumber - 3; ++flag)
+	{
+		//get 4 pokers out
+		result = GetXPokersOut(MyCards, flag, 4);
+		//if the 4 cards aren't equal
+		if (!IfAllEquall(result))
+			continue;
+		//if the 4 equal cards are bigger than the enemy
+		if (PokerCompare(result[0], EnemyCards[0]) > 0)
+		{
+			vector<string> Remain = MyCards;
+			Remain.erase(Remain.begin() + flag, Remain.begin() + flag + 3);
+			result.push_back(Remain[0]);
+			result.push_back(Remain[1]);
+			MyOut = result;
+		}
+		else
+			continue;
+	}
+	//don't find proper, use bomb
+	if (flag == MyNumber - 3)
+		return Strategy_Bomb();
 }
 
 void MyPoker::Strategy_9()
 {
-
+	//find 2 airplanes without wings
+	//like 333 444
+	int flag;
+	vector<string> result;
+	for (flag = 0; flag < MyNumber - 5; ++flag)
+	{
+		result = GetXPokersOut(MyCards, flag, 6);
+		if (PokerCompare(result[0], EnemyCards[0]) <= 0)
+			continue;
+		if (*(find(PokerSeries.begin(), PokerSeries.end(), result[0]) + 1) != result[3])
+			//if the numbers are not closed
+			continue;
+		else
+		{
+			//if the numbers are closed, determine whether the 3 are equal respectively
+			vector<string> formerPart = result;
+			vector<string> latterPart = result;
+			formerPart.erase(formerPart.begin() + 3, formerPart.end());
+			latterPart.erase(latterPart.begin(), latterPart.begin() + 2);
+			if (IfAllEquall(formerPart) && IfAllEquall(latterPart))
+				MyOut = result;
+		}
+	}
+	//if doesn't find an airplane, bomb!
+	if (flag == MyNumber - 5)
+		return Strategy_Bomb();
 }
 
 void MyPoker::Strategy_10()
 {
+	//find two airplanes with two single wings
+	//like 2 333 444 A
+	int flag;
+	vector<string> result;
+	for (flag = 0; flag < MyNumber - 5; ++flag)
+	{
+		result = GetXPokersOut(MyCards, flag, 6);
+		if (PokerCompare(result[0], EnemyCards[1]) <= 0)
+			continue;
+		if (*(find(PokerSeries.begin(), PokerSeries.end(), result[0]) + 1) != result[3])
+			//if the numbers are not closed
+			continue;
+		else
+		{
+			//if the numbers are closed, determine whether the 3 are equal respectively
+			vector<string> formerPart = result;
+			vector<string> latterPart = result;
+			formerPart.erase(formerPart.begin() + 3, formerPart.end());
+			latterPart.erase(latterPart.begin(), latterPart.begin() + 2);
+			if (IfAllEquall(formerPart) && IfAllEquall(latterPart))
+			{
+				//if found the 2 airplanes
+				//erase the 2 airplanes
+				vector<string> Remain = MyCards;
+				Remain.erase(MyCards.begin() + flag, MyCards.begin() + flag + 5);
+				string FirstWing = Remain[0];
+				string SecondWing;
+				//find the second wing
+				for (int i = 1; i < Remain.size(); ++i)
+				{
+					if (Remain[i] != FirstWing)
+					{
+						SecondWing = Remain[i];
+						break;
+					}
+				}
+				if (SecondWing.empty())
+					//doesn't find the second wing
+					continue;
+				else
+				{
+					//find the second wing
+					MyOut = result;
+					MyOut.push_back(FirstWing);
+					MyOut.push_back(SecondWing);
+					break;
+				}
+			}
+		}
 
+		//doesn't find a proper plane
+		if (flag == MyNumber - 5)
+			return Strategy_Bomb();
+	}
 }
 
 void MyPoker::Strategy_11()
 {
+	//find two airplanes with two double wings
+    //like 22 333 444 AA
+	int flag;
+	vector<string> result;
+	for (flag = 0; flag < MyNumber - 5; ++flag)
+	{
+		result = GetXPokersOut(MyCards, flag, 6);
+		if (PokerCompare(result[0], EnemyCards[1]) <= 0)
+			continue;
+		if (*(find(PokerSeries.begin(), PokerSeries.end(), result[0]) + 1) != result[3])
+			//if the numbers are not closed
+			continue;
+		else
+		{
+			//if the numbers are closed, determine whether the 3 are equal respectively
+			vector<string> formerPart = result;
+			vector<string> latterPart = result;
+			formerPart.erase(formerPart.begin() + 3, formerPart.end());
+			latterPart.erase(latterPart.begin(), latterPart.begin() + 2);
+			if (IfAllEquall(formerPart) && IfAllEquall(latterPart))
+			{
+				//if found the 2 airplanes
+				//erase the 2 airplanes and find 2 double
+				vector<string> Remain = MyCards;
+				Remain.erase(MyCards.begin() + flag, MyCards.begin() + flag + 5);
+				
+				//find the first wing
+				vector<string> FirstWing;
+				int FirstWingFlag;
+				for (FirstWingFlag = 0; FirstWingFlag < Remain.size() - 1; ++FirstWingFlag);
+				{
+					FirstWing = GetXPokersOut(Remain, FirstWingFlag, 2);
+					if (FirstWing[0] != FirstWing[1])
+						continue;
+				}
+				if (FirstWingFlag == Remain.size() - 1)
+					continue;
+				//find the second wing
+				vector<string> Remain2 = Remain;
+				vector<string> SecondWing;
+				Remain2.erase(Remain2.begin() + FirstWingFlag, Remain2.begin() + FirstWingFlag + 1);
+				int SecondWingFlag;
+				for (SecondWingFlag = 0; SecondWingFlag < Remain2.size() - 1; ++SecondWingFlag)
+				{
+					SecondWing = GetXPokersOut(Remain2, SecondWingFlag, 2);
+					if (SecondWing[0] != SecondWing[1])
+						continue;
+				}
+				if (SecondWingFlag == Remain2.size() - 1)
+					continue;
+				MyOut = result;
+				MyOut.push_back(FirstWing[0]);
+				MyOut.push_back(FirstWing[1]);
+				MyOut.push_back(SecondWing[0]);
+				MyOut.push_back(SecondWing[1]);
+			}
+		}
+	}
 
+	//doesn't find a proper plane
+	if (flag == MyNumber - 5)
+		return Strategy_Bomb();
 }
 
+/*
 void MyPoker::Strategy_12()
 {
 
@@ -311,16 +517,17 @@ void MyPoker::Strategy_14()
 
 }
 
+*/
 void MyPoker::Strategy_Bomb()
 {
 	//find a bomb to overcome the bomb of the enemy
 	vector<string> Bomb;
-	int flag, BombStart;
+	int flag;
 	for (flag = 0; flag < MyNumber - 3; ++flag)
 	{
 		//find a normal bomb
 		Bomb.clear();
-		Bomb = GetXPokersOut(flag, 4);
+		Bomb = GetXPokersOut(MyCards, flag, 4);
 		bool equal = IfAllEquall(Bomb);
 		if (EnemyNature != 15 && equal)
 		{
