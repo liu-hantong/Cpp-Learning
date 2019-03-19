@@ -401,7 +401,7 @@ void MyPoker::Strategy_9()
 void MyPoker::Strategy_10()
 {
 	//find two airplanes with two single wings
-	//like 2 333 444 A
+	//like 2 444 333 A
 	int flag;
 	vector<string> result;
 	for (flag = 0; flag < MyNumber - 5; ++flag)
@@ -443,8 +443,9 @@ void MyPoker::Strategy_10()
 				else
 				{
 					//find the second wing
-					MyOut = result;
 					MyOut.push_back(FirstWing);
+					for (int i = 0; i < 6; ++i)
+						MyOut.push_back(result[i]);
 					MyOut.push_back(SecondWing);
 					break;
 				}
@@ -460,7 +461,7 @@ void MyPoker::Strategy_10()
 void MyPoker::Strategy_11()
 {
 	//find two airplanes with two double wings
-    //like 22 333 444 AA
+    //like 22 444 333 AA
 	int flag;
 	vector<string> result;
 	for (flag = 0; flag < MyNumber - 5; ++flag)
@@ -509,9 +510,11 @@ void MyPoker::Strategy_11()
 				}
 				if (SecondWingFlag == Remain2.size() - 1)
 					continue;
-				MyOut = result;
+				//collect the Out Cards
 				MyOut.push_back(FirstWing[0]);
 				MyOut.push_back(FirstWing[1]);
+				for (size_t i = 0; i < 6; i++)
+					MyOut.push_back(result[i]);
 				MyOut.push_back(SecondWing[0]);
 				MyOut.push_back(SecondWing[1]);
 				break;
