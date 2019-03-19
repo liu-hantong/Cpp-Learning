@@ -4,6 +4,7 @@
 
 void WhatsTheResult(vector<string> Out)
 {
+	reverse(Out.begin(), Out.end());
 	//print out the result
 	if (Out.empty())
 		cout << "Yao Bu Qi";
@@ -35,10 +36,11 @@ int main()
 		std::cin >> CurrentPoker;
 		EnemyPoker.push_back(CurrentPoker);
 	}
+	//reverse the pokers to follow order
+	reverse(EnemyPoker.begin(), EnemyPoker.end());
 
 	//determine the nature of pokers
 	PokerAnalysis YouOutThese(EnemyPoker, EnemyNumber);   
-	cout << YouOutThese.CardsNature << endl;
 	
 	//find a solution
 	MyPoker IHaveThese(MyPokers, MyNumber, YouOutThese);   

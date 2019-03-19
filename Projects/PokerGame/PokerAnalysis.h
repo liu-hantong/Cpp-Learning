@@ -70,7 +70,7 @@ void PokerAnalysis::Judge_6()
 	else
 	{
 		if (Cards[1] != Cards[2])
-			CardsNature = 2;       //Double
+			CardsNature = 6;       //continue double
 		else
 			CardsNature = 8;       //4with2
 	}
