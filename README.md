@@ -4,7 +4,7 @@
 
 ## Projects
 * [Game 2048](https://github.com/llht/Cpp-Notes/blob/master/Projects/2048.cpp).
-* [Inventory Admin System](https://github.com/llht/Cpp-Notes/tree/master/Projects/InvenAdminSystem).  
+* [Inventory Admin System（命令行商品购物系统）](https://github.com/llht/Cpp-Notes/tree/master/Projects/InvenAdminSystem).  
 * [Poker Game（斗地主）](https://github.com/llht/Cpp-Notes/tree/master/Projects/PokerGame)
 ## Notes
 * [Chapter 6](https://github.com/llht/Cpp-Notes/blob/master/primer_notes/C%2B%2BprimerNoteChapter6.cpp) 
