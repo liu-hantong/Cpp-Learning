@@ -15,7 +15,7 @@ void WhatsTheResult(vector<string> Out)
 	}
 	cout << endl;
 }
-
+/*
 int main()
 {
 	int MyNumber, EnemyNumber;                    //mark the number of pokers
@@ -49,3 +49,4 @@ int main()
 	system("pause");
 }
 
+*/
