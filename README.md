@@ -1,4 +1,4 @@
-# Cpp-Notes
+# Cpp-Learning
 
 * Here are some _notes_ and small _practices_ that I wrote while I'm learning **C++**. Some little _console projects_ are also included.
 
