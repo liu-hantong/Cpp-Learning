@@ -473,6 +473,7 @@ void MyPoker::Strategy_Bomb()
 	//find a bomb to overcome the bomb of the enemy
 	vector<string> Bomb;
 	int flag;
+	if (MyNumber < 4) return;
 	for (flag = 0; flag < MyNumber - 3; ++flag)
 	{
 		//find a normal bomb
