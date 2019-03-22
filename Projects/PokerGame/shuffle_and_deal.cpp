@@ -43,7 +43,7 @@ vector<string> get_new_deck() {
 }
 
 void sort_the_pokers(shared_ptr<vector<string>> PokersNeedTobeSorted);                                                        //sort the pokers by poker order
-vector<string> OriginOut(vector<string> PokersNneedToOut);                                                                    //select pokers to out
+//vector<string> OriginOut(vector<string> PokersNneedToOut);                                                                    //select pokers to out
 void Out_Display_Result(string Name, shared_ptr<vector<string>>, vector<string> OutPokers, vector<string>& GreatestPokers);   //out proper pokers and print results
 
 
@@ -77,6 +77,7 @@ int main(int argc, char* argv[]) {
 	sort_the_pokers(LordPtr);
 	sort_the_pokers(Farmer1Ptr);
 	sort_the_pokers(Farmer2Ptr);
+	
 	
 	int PlayerNow = 0; //Mark the player who is going to choose a poker
 	int OriginPlay = 1;//Mark whether you should out new pokers in a lap
@@ -115,13 +116,14 @@ int main(int argc, char* argv[]) {
 
 			Out_Display_Result(NumberToPlayerName[PlayerNow], NumberToPlayer[PlayerNow], MyOut, CurrentGreatestPoker);
 			
-			/*
+			
 			DeleteThePokers(NumberToPlayer[PlayerNow], MyOut);
 			CurrentGreatestPoker = MyOut;
 			DisplayTheSituationOfPlayer(NumberToPlayerName[PlayerNow],*NumberToPlayer[PlayerNow], MyOut);
-			*/
+			
 		}
 
+		
 		else if(!OriginPlay)
 		{
 			//if should follow the poker of the previous player
@@ -149,7 +151,44 @@ int main(int argc, char* argv[]) {
 		cout << "Farmers Win!!!!!!!" << endl;
 	else
 		cout << "Lord Win!!!!!!!!!!" << endl;
-
+	
+		
 	system("pause");
     return 0;
+	
+}
+
+void sort_the_pokers(shared_ptr<vector<string>> PokersNeedTobeSorted)
+{
+	//sort the pokers depend on Card Values
+	vector<vector<string>> PokersOrders;
+	PokersOrders.resize(16);
+
+	vector<string> ReasonedOrders;
+	for (int i = 0; i < 15; ++i)
+		ReasonedOrders.push_back(CARD_VALUES[i]);
+	for (auto i = (*PokersNeedTobeSorted).begin(); i < (*PokersNeedTobeSorted).end(); ++i)
+	{
+		//find the correspond position in the PokersOrders and insert it into the new vector
+		int position = find(ReasonedOrders.begin(), ReasonedOrders.end(), *i) - ReasonedOrders.begin();
+		PokersOrders[position].push_back(*i);
+	}
+	(*PokersNeedTobeSorted).clear();
+	for (int i = 0; i < 15; ++i)
+	{
+		for (auto KindBegin = PokersOrders[i].begin(); KindBegin < PokersOrders[i].end(); ++KindBegin)
+		{
+			(*PokersNeedTobeSorted).push_back(*KindBegin);
+		}
+	}
+}
+
+void Out_Display_Result(string Name, shared_ptr<vector<string>> CurrentPlayer, vector<string> OutPokers, vector<string>& GreatestPokers)
+{
+	//delete the Out pokers
+	for (int i = 0; i < (*CurrentPlayer).size(); ++i)
+	{
+		
+	}
+
 }
