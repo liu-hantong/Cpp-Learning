@@ -15,7 +15,7 @@ PokerAnalysis::PokerAnalysis(vector<string> Cards, int number) : Cards(Cards), C
 	case 8: Judge_8(); break;               //continual single or 2 planes with 2 single wings or continual double
 	case 9: if (Cards[0] != Cards[1]) CardsNature = 7; else CardsNature = 12; break; //continual single or 3planes with no wings
 	case 10: Judge_10(); break;             //continual single or continual double or 2 planes with 2 double wings
-	case 11: CardsNature = 7; break;         //continual single
+	case 11: CardsNature = 7; break;        //continual single
 	case 12: Judge_12(); break;				//continual single or 3 planes with 3 single cards or continual double
 	case 13: CardsNature = 7; break;        //continual single 
 	case 15: CardsNature = 14; break;		//3 planes with 3 double wings
@@ -71,7 +71,7 @@ void PokerAnalysis::Judge_10()
 
 void PokerAnalysis::Judge_12()
 {
-	if (Cards[1] != Cards[1])
+	if (Cards[0] != Cards[1])
 		CardsNature = 7;           //continual single
 	else
 	{

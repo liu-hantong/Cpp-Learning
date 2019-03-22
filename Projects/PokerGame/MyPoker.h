@@ -26,7 +26,7 @@ class MyPoker
 private:
 	int MyNumber, EnemyNumber;
 	int EnemyNature;			//mark the nature of the enemy you should confront
-	const vector<string> PokerSeries = { "3", "4", "5","6","7","8","9","10","J","Q","K","A","2","joker","JOKER" };
+	const vector<string> PokerSeries = { "1", "3", "4", "5","6","7","8","9","10","J","Q","K","A","2","joker","JOKER" };
 	vector<string> MyCards;
 	vector<string> EnemyCards;
 public:
